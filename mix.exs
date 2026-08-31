@@ -50,11 +50,18 @@ defmodule Radar.MixProject do
       {:lazy_html, ">= 0.1.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.8.3"},
       {:esbuild, "~> 0.10", runtime: Mix.env() == :dev},
-      {:tailwind, "~> 0.3", runtime: Mix.env() == :dev},
+      {:tailwind, "~> 0.5", runtime: Mix.env() == :dev},
       {:heroicons,
        github: "tailwindlabs/heroicons",
        tag: "v2.2.0",
        sparse: "optimized",
+       app: false,
+       compile: false,
+       depth: 1},
+      {:daisyui,
+       github: "saadeghi/daisyui",
+       tag: "v5.5.20",
+       sparse: "packages/bundle",
        app: false,
        compile: false,
        depth: 1},
@@ -64,6 +71,12 @@ defmodule Radar.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 1.0"},
       {:jason, "~> 1.2"},
+      {:mdex, "~> 0.13"},
+      # Optional: only used if MDEx's precompiled NIF can't be downloaded
+      # (e.g. restricted network), forcing a local build from source via
+      # `RUSTLER_PRECOMPILED_FORCE_BUILD_ALL=1 mix deps.compile mdex_native --force`.
+      {:rustler, ">= 0.0.0", optional: true},
+      {:nimble_publisher, "~> 2.1"},
       {:dns_cluster, "~> 0.2.0"},
       {:bandit, "~> 1.5"}
     ]

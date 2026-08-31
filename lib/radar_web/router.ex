@@ -18,6 +18,12 @@ defmodule RadarWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+
+    live_session :radar do
+      live "/radar", RadarLive.Index, :index
+      live "/radar/about", RadarLive.About, :about
+      live "/radar/:id", RadarLive.Show, :show
+    end
   end
 
   # Other scopes may use custom stacks.

@@ -11,6 +11,11 @@ config :radar,
   ecto_repos: [Radar.Repo],
   generators: [timestamp_type: :utc_datetime]
 
+# Technology Radar content: markdown files parsed at compile time.
+config :radar,
+  radar_releases_glob: "priv/radar/releases/**/*.md",
+  radar_about_path: "priv/radar/about.md"
+
 # Configure the endpoint
 config :radar, RadarWeb.Endpoint,
   url: [host: "localhost"],
@@ -43,13 +48,14 @@ config :esbuild,
 
 # Configure tailwind (the version is required)
 config :tailwind,
-  version: "4.1.12",
+  version: "4.3.0",
   radar: [
     args: ~w(
       --input=assets/css/app.css
       --output=priv/static/assets/css/app.css
     ),
-    cd: Path.expand("..", __DIR__)
+    cd: Path.expand("..", __DIR__),
+    env: %{"NODE_PATH" => [Path.expand("../deps", __DIR__), Mix.Project.build_path()]}
   ]
 
 # Configure Elixir's Logger

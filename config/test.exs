@@ -1,5 +1,10 @@
 import Config
 
+# Technology Radar content: use fixtures in tests instead of real content.
+config :radar,
+  radar_releases_glob: "test/support/fixtures/radar/releases/**/*.md",
+  radar_about_path: "test/support/fixtures/radar/about.md"
+
 # Configure your database
 #
 # The MIX_TEST_PARTITION environment variable can be used
