@@ -20,10 +20,29 @@ defmodule Radar.TechRadar.Release do
     :tags,
     :featured,
     :related,
+    :type,
+    :status,
+    :stale_after,
+    :sources,
     :body_html,
     :path
   ]
-  defstruct [:id, :date, :title, :ring, :quadrant, :tags, :featured, :related, :body_html, :path]
+  defstruct [
+    :id,
+    :date,
+    :title,
+    :ring,
+    :quadrant,
+    :tags,
+    :featured,
+    :related,
+    :type,
+    :status,
+    :stale_after,
+    :sources,
+    :body_html,
+    :path
+  ]
 
   @type t :: %__MODULE__{
           id: String.t(),
@@ -34,6 +53,10 @@ defmodule Radar.TechRadar.Release do
           tags: [String.t()],
           featured: boolean(),
           related: [String.t()],
+          type: String.t(),
+          status: atom(),
+          stale_after: Date.t() | nil,
+          sources: [String.t()],
           body_html: String.t(),
           path: String.t()
         }
@@ -53,9 +76,26 @@ defmodule Radar.TechRadar.Release do
       tags: Map.get(attrs, :tags, []),
       featured: Map.get(attrs, :featured, true),
       related: Map.get(attrs, :related, []),
+      type: Map.get(attrs, :type, "Radar Item"),
+      status: atom_for!(:status, Map.get(attrs, :status, "stable"), Config.status_ids(), path),
+      stale_after: parse_stale_after!(Map.get(attrs, :stale_after), path),
+      sources: Map.get(attrs, :sources, []),
       body_html: body_html,
       path: path
     }
+  end
+
+  defp parse_stale_after!(nil, _path), do: nil
+
+  defp parse_stale_after!(value, path) do
+    case Date.from_iso8601(value) do
+      {:ok, date} ->
+        date
+
+      {:error, _reason} ->
+        raise "#{path}: invalid stale_after date #{inspect(value)}, expected an ISO 8601 " <>
+                "date like \"2026-12-31\""
+    end
   end
 
   defp id_and_date_from_path(path) do

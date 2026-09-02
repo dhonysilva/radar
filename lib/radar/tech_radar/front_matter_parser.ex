@@ -10,6 +10,10 @@ defmodule Radar.TechRadar.FrontMatterParser do
       tags: [frontend, coding]
       featured: true
       related: [typescript, nextjs]
+      type: "Radar Item"
+      status: stable
+      stale_after: "2026-12-31"
+      sources: [https://example.com/postmortem]
       ---
       Body markdown...
 
@@ -31,7 +35,11 @@ defmodule Radar.TechRadar.FrontMatterParser do
     "quadrant" => :quadrant,
     "tags" => :tags,
     "featured" => :featured,
-    "related" => :related
+    "related" => :related,
+    "type" => :type,
+    "status" => :status,
+    "stale_after" => :stale_after,
+    "sources" => :sources
   }
 
   @doc """

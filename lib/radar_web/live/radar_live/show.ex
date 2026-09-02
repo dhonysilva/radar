@@ -10,6 +10,8 @@ defmodule RadarWeb.RadarLive.Show do
         quadrant = Enum.find(TechRadar.list_quadrants(), &(&1.id == item.quadrant))
         ring = Enum.find(TechRadar.list_rings(), &(&1.id == item.ring))
         flag = item.flag && Enum.find(TechRadar.list_flags(), &(&1.id == item.flag))
+        status = Enum.find(TechRadar.list_statuses(), &(&1.id == item.status))
+        stale? = TechRadar.stale?(item)
 
         related_items =
           Enum.flat_map(item.related, fn related_id ->
@@ -26,6 +28,8 @@ defmodule RadarWeb.RadarLive.Show do
          |> assign(:quadrant, quadrant)
          |> assign(:ring, ring)
          |> assign(:flag, flag)
+         |> assign(:status, status)
+         |> assign(:stale?, stale?)
          |> assign(:related_items, related_items)}
 
       :error ->
@@ -45,6 +49,8 @@ defmodule RadarWeb.RadarLive.Show do
           &larr; Back to radar
         </.link>
 
+        <p class="mt-2 text-xs uppercase tracking-wide text-base-content/50">{@item.type}</p>
+
         <.header>
           {@item.title}
           <span
@@ -53,6 +59,13 @@ defmodule RadarWeb.RadarLive.Show do
             style={"background-color: #{@flag.color}"}
           >
             {@flag.title}
+          </span>
+          <span
+            :if={@status.id != :stable}
+            class="ml-2 inline-block rounded-full px-2 py-0.5 align-middle text-xs font-medium text-white"
+            style={"background-color: #{@status.color}"}
+          >
+            {@status.title}
           </span>
           <:subtitle>
             <span
@@ -69,6 +82,10 @@ defmodule RadarWeb.RadarLive.Show do
             </span>
           </:subtitle>
         </.header>
+
+        <p :if={@stale?} class="mt-2 text-xs font-medium text-warning">
+          ⚠ Needs review &mdash; stale since {Calendar.strftime(@item.stale_after, "%Y-%m-%d")}
+        </p>
 
         <div class="radar-content">
           {Phoenix.HTML.raw(@item.body_html)}
@@ -102,8 +119,29 @@ defmodule RadarWeb.RadarLive.Show do
             </li>
           </ul>
         </div>
+
+        <div :if={@item.sources != []} class="mt-8">
+          <h2 class="font-semibold">Sources</h2>
+          <ul class="mt-2 space-y-1 text-sm text-base-content/70">
+            <li :for={source <- @item.sources}>
+              <a
+                :if={safe_link?(source)}
+                href={source}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="hover:underline"
+              >
+                {source}
+              </a>
+              <span :if={not safe_link?(source)}>{source}</span>
+            </li>
+          </ul>
+        </div>
       </div>
     </Layouts.app>
     """
   end
+
+  defp safe_link?(source),
+    do: String.starts_with?(source, "http://") or String.starts_with?(source, "https://")
 end

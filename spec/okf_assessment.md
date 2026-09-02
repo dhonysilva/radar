@@ -1,5 +1,14 @@
 # OKF (Open Knowledge Format) Assessment
 
+**Status: the three recommended ideas below (lifecycle metadata,
+provenance, and a `type` discriminator) have been implemented.** See
+`lib/radar/tech_radar/status.ex`, `lib/radar/tech_radar/release.ex`, and
+`lib/radar/tech_radar.ex` for the `type`/`status`/`stale_after`/`sources`
+front-matter fields, the `Status` config (draft/stable/deprecated), and
+`TechRadar.stale?/1,2`. Full OKF compliance (attestation, YAML-map fields,
+unvalidated links) was deliberately not pursued, per the "Where it doesn't
+fit" section below.
+
 Evaluation of this app's current markdown/MDEx content pipeline, and whether
 adopting Google Cloud's Open Knowledge Format (OKF) would improve it.
 
