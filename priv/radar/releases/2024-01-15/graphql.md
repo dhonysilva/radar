@@ -3,6 +3,7 @@ title: "GraphQL"
 ring: trial
 quadrant: techniques
 tags: [api]
+related: [api-first-design, contract-testing]
 ---
 
 **GraphQL** gives API consumers precise control over the shape of the data

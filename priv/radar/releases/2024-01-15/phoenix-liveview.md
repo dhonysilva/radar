@@ -3,6 +3,7 @@ title: "Phoenix LiveView"
 ring: adopt
 quadrant: languages-and-frameworks
 tags: [backend, frontend]
+related: [elixir, htmx, livebook]
 ---
 
 **Phoenix LiveView** lets us ship rich, real-time UIs while keeping all

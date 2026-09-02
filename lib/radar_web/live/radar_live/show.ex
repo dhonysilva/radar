@@ -11,13 +11,22 @@ defmodule RadarWeb.RadarLive.Show do
         ring = Enum.find(TechRadar.list_rings(), &(&1.id == item.ring))
         flag = item.flag && Enum.find(TechRadar.list_flags(), &(&1.id == item.flag))
 
+        related_items =
+          Enum.flat_map(item.related, fn related_id ->
+            case TechRadar.get_item(related_id) do
+              {:ok, related_item} -> [related_item]
+              :error -> []
+            end
+          end)
+
         {:ok,
          socket
          |> assign(:page_title, item.title)
          |> assign(:item, item)
          |> assign(:quadrant, quadrant)
          |> assign(:ring, ring)
-         |> assign(:flag, flag)}
+         |> assign(:flag, flag)
+         |> assign(:related_items, related_items)}
 
       :error ->
         {:ok,
@@ -69,6 +78,20 @@ defmodule RadarWeb.RadarLive.Show do
           <span :for={tag <- @item.tags} class="rounded-full bg-base-200 px-2 py-0.5">
             {tag}
           </span>
+        </div>
+
+        <div :if={@related_items != []} class="mt-8">
+          <h2 class="font-semibold">Related items</h2>
+          <ul class="mt-2 flex flex-wrap gap-2 text-sm">
+            <li :for={related <- @related_items}>
+              <.link
+                navigate={~p"/radar/#{related.id}"}
+                class="inline-block rounded-full bg-base-200 px-3 py-1 hover:bg-base-300"
+              >
+                {related.title}
+              </.link>
+            </li>
+          </ul>
         </div>
 
         <div :if={@item.history != []} class="mt-8">

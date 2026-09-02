@@ -3,6 +3,7 @@ title: "jQuery"
 ring: hold
 quadrant: languages-and-frameworks
 tags: [frontend, legacy]
+related: [typescript, react]
 ---
 
 **jQuery** solved real problems in a pre-standardized DOM API world, but

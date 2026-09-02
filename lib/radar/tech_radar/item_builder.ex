@@ -42,6 +42,7 @@ defmodule Radar.TechRadar.ItemBuilder do
       quadrant: current.quadrant,
       tags: current.tags,
       featured: current.featured,
+      related: current.related,
       body_html: current.body_html,
       release_date: current.date,
       history: history,

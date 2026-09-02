@@ -9,6 +9,7 @@ defmodule Radar.TechRadar.FrontMatterParser do
       quadrant: languages-and-frameworks
       tags: [frontend, coding]
       featured: true
+      related: [typescript, nextjs]
       ---
       Body markdown...
 
@@ -29,7 +30,8 @@ defmodule Radar.TechRadar.FrontMatterParser do
     "ring" => :ring,
     "quadrant" => :quadrant,
     "tags" => :tags,
-    "featured" => :featured
+    "featured" => :featured,
+    "related" => :related
   }
 
   @doc """

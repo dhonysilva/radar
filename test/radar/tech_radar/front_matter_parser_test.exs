@@ -28,6 +28,20 @@ defmodule Radar.TechRadar.FrontMatterParserTest do
     assert body == "Body **markdown**.\n"
   end
 
+  test "parses the related field as a list of slugs" do
+    contents = """
+    ---
+    title: "X"
+    ring: hold
+    quadrant: tools
+    related: [alpha, beta]
+    ---
+    Body.
+    """
+
+    assert {%{related: ["alpha", "beta"]}, _body} = FrontMatterParser.parse("item.md", contents)
+  end
+
   test "parses a bracketed list with irregular spacing" do
     contents = """
     ---

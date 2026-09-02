@@ -3,6 +3,7 @@ title: "Microservices"
 ring: assess
 quadrant: techniques
 tags: [architecture]
+related: [domain-driven-design, contract-testing, event-sourcing]
 ---
 
 Splitting a monolith into **microservices** buys independent deployability

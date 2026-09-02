@@ -19,6 +19,7 @@ defmodule Radar.TechRadar.ChartLayoutTest do
       ring: ring,
       tags: [],
       featured: true,
+      related: [],
       body_html: "",
       release_date: ~D[2024-01-01],
       history: [],

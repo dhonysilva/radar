@@ -3,6 +3,7 @@ title: "Elixir"
 ring: adopt
 quadrant: languages-and-frameworks
 tags: [backend, functional]
+related: [phoenix-liveview, gleam, livebook, ash-framework]
 ---
 
 **Elixir** is a dynamic, functional language built on the Erlang VM. Its

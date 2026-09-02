@@ -3,6 +3,7 @@ title: "Erlang"
 ring: adopt
 quadrant: languages-and-frameworks
 tags: [backend, functional]
+related: [elixir, gleam]
 ---
 
 **Erlang** is a dynamic, functional language built on the Erlang VM. Its

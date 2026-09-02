@@ -11,8 +11,19 @@ defmodule Radar.TechRadar.Release do
 
   alias Radar.TechRadar.Config
 
-  @enforce_keys [:id, :date, :title, :ring, :quadrant, :tags, :featured, :body_html, :path]
-  defstruct [:id, :date, :title, :ring, :quadrant, :tags, :featured, :body_html, :path]
+  @enforce_keys [
+    :id,
+    :date,
+    :title,
+    :ring,
+    :quadrant,
+    :tags,
+    :featured,
+    :related,
+    :body_html,
+    :path
+  ]
+  defstruct [:id, :date, :title, :ring, :quadrant, :tags, :featured, :related, :body_html, :path]
 
   @type t :: %__MODULE__{
           id: String.t(),
@@ -22,6 +33,7 @@ defmodule Radar.TechRadar.Release do
           quadrant: atom(),
           tags: [String.t()],
           featured: boolean(),
+          related: [String.t()],
           body_html: String.t(),
           path: String.t()
         }
@@ -40,6 +52,7 @@ defmodule Radar.TechRadar.Release do
       quadrant: atom_for!(:quadrant, Map.fetch!(attrs, :quadrant), Config.quadrant_ids(), path),
       tags: Map.get(attrs, :tags, []),
       featured: Map.get(attrs, :featured, true),
+      related: Map.get(attrs, :related, []),
       body_html: body_html,
       path: path
     }

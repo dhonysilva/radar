@@ -3,6 +3,7 @@ title: "Kubernetes"
 ring: trial
 quadrant: platforms
 tags: [infrastructure]
+related: [argo-cd, istio, terraform, chaos-engineering]
 ---
 
 **Kubernetes** remains the de-facto standard for container orchestration.

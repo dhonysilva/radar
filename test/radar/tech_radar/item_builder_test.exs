@@ -8,6 +8,7 @@ defmodule Radar.TechRadar.ItemBuilderTest do
       title: "Item",
       tags: [],
       featured: true,
+      related: [],
       body_html: "<p>body</p>",
       path: "priv/radar/releases/x/item.md"
     }
@@ -61,6 +62,29 @@ defmodule Radar.TechRadar.ItemBuilderTest do
     [item] = ItemBuilder.from_releases(releases)
 
     assert item.flag == nil
+  end
+
+  test "an item's related list comes from its latest release" do
+    releases = [
+      release(
+        id: "alpha",
+        date: ~D[2024-01-01],
+        ring: :trial,
+        quadrant: :techniques,
+        related: []
+      ),
+      release(
+        id: "alpha",
+        date: ~D[2024-06-01],
+        ring: :adopt,
+        quadrant: :techniques,
+        related: ["beta"]
+      )
+    ]
+
+    [item] = ItemBuilder.from_releases(releases)
+
+    assert item.related == ["beta"]
   end
 
   test "history is ordered ascending by release date" do

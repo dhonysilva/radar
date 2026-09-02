@@ -3,6 +3,7 @@ title: "AI Pair Programming"
 ring: assess
 quadrant: techniques
 tags: [ai, productivity]
+related: [prompt-engineering, github-copilot, claude-code]
 ---
 
 Using an AI assistant as a pairing partner for day-to-day coding — from

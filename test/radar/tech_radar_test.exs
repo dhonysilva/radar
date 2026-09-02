@@ -17,6 +17,13 @@ defmodule Radar.TechRadarTest do
     assert alpha.history == [%{release_date: ~D[2024-01-01], ring: :trial}]
   end
 
+  test "an item's related ids resolve to real items" do
+    assert {:ok, alpha} = TechRadar.get_item("alpha")
+    assert alpha.related == ["beta"]
+
+    assert Enum.all?(alpha.related, &match?({:ok, _}, TechRadar.get_item(&1)))
+  end
+
   test "an item only in the latest release is flagged :new" do
     assert {:ok, gamma} = TechRadar.get_item("gamma")
 

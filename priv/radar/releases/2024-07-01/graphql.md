@@ -3,6 +3,7 @@ title: "GraphQL"
 ring: adopt
 quadrant: techniques
 tags: [api]
+related: [api-first-design, contract-testing]
 ---
 
 Our GraphQL trial went well: schema-first contracts, precise data fetching,

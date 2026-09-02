@@ -9,6 +9,15 @@ defmodule Radar.TechRadar do
 
   @items ItemBuilder.from_releases(Releases.all())
 
+  known_ids = MapSet.new(@items, & &1.id)
+
+  for item <- @items,
+      related_id <- item.related,
+      not MapSet.member?(known_ids, related_id) do
+    raise "item #{inspect(item.id)} has a related id #{inspect(related_id)} " <>
+            "that does not match any known item id"
+  end
+
   @doc "Returns every radar item, sorted by title."
   @spec list_items() :: [Item.t()]
   def list_items, do: Enum.sort_by(@items, & &1.title)

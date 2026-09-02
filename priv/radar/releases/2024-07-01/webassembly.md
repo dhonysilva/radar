@@ -3,6 +3,7 @@ title: "WebAssembly"
 ring: trial
 quadrant: languages-and-frameworks
 tags: [frontend, performance]
+related: [rust, zig]
 ---
 
 **WebAssembly** lets us run near-native-speed code in the browser for the
