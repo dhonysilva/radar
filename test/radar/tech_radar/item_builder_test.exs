@@ -9,6 +9,10 @@ defmodule Radar.TechRadar.ItemBuilderTest do
       tags: [],
       featured: true,
       related: [],
+      type: "Radar Item",
+      status: :stable,
+      stale_after: nil,
+      sources: [],
       body_html: "<p>body</p>",
       path: "priv/radar/releases/x/item.md"
     }
@@ -85,6 +89,38 @@ defmodule Radar.TechRadar.ItemBuilderTest do
     [item] = ItemBuilder.from_releases(releases)
 
     assert item.related == ["beta"]
+  end
+
+  test "an item's type, status, stale_after, and sources come from its latest release" do
+    releases = [
+      release(
+        id: "alpha",
+        date: ~D[2024-01-01],
+        ring: :trial,
+        quadrant: :techniques,
+        type: "Radar Item",
+        status: :draft,
+        stale_after: nil,
+        sources: []
+      ),
+      release(
+        id: "alpha",
+        date: ~D[2024-06-01],
+        ring: :adopt,
+        quadrant: :techniques,
+        type: "Playbook",
+        status: :deprecated,
+        stale_after: ~D[2026-01-01],
+        sources: ["https://example.com/source"]
+      )
+    ]
+
+    [item] = ItemBuilder.from_releases(releases)
+
+    assert item.type == "Playbook"
+    assert item.status == :deprecated
+    assert item.stale_after == ~D[2026-01-01]
+    assert item.sources == ["https://example.com/source"]
   end
 
   test "history is ordered ascending by release date" do

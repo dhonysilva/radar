@@ -42,6 +42,28 @@ defmodule Radar.TechRadar.FrontMatterParserTest do
     assert {%{related: ["alpha", "beta"]}, _body} = FrontMatterParser.parse("item.md", contents)
   end
 
+  test "parses type, status, stale_after, and sources" do
+    contents = """
+    ---
+    title: "X"
+    ring: hold
+    quadrant: tools
+    type: "Playbook"
+    status: deprecated
+    stale_after: "2026-12-31"
+    sources: [https://example.com/a, https://example.com/b]
+    ---
+    Body.
+    """
+
+    assert {attrs, _body} = FrontMatterParser.parse("item.md", contents)
+
+    assert attrs.type == "Playbook"
+    assert attrs.status == "deprecated"
+    assert attrs.stale_after == "2026-12-31"
+    assert attrs.sources == ["https://example.com/a", "https://example.com/b"]
+  end
+
   test "parses a bracketed list with irregular spacing" do
     contents = """
     ---

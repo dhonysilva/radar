@@ -24,6 +24,7 @@ defmodule RadarWeb.RadarLive.Index do
      |> assign(:quadrants, quadrants)
      |> assign(:rings, rings)
      |> assign(:flags, TechRadar.list_flags())
+     |> assign(:statuses, TechRadar.list_statuses())
      |> assign(:tags, TechRadar.list_tags())
      |> assign(:quadrant_by_id, Map.new(quadrants, &{&1.id, &1}))
      |> assign(:ring_by_id, Map.new(rings, &{&1.id, &1}))
@@ -76,13 +77,15 @@ defmodule RadarWeb.RadarLive.Index do
   attr :quadrant_by_id, :map, required: true
   attr :ring_by_id, :map, required: true
   attr :flags, :list, required: true
+  attr :statuses, :list, required: true
 
   def item_card(assigns) do
     ring = assigns.ring_by_id[assigns.item.ring]
     quadrant = assigns.quadrant_by_id[assigns.item.quadrant]
     flag = flag_for(assigns.flags, assigns.item.flag)
+    status = Enum.find(assigns.statuses, &(&1.id == assigns.item.status))
 
-    assigns = assign(assigns, ring: ring, quadrant: quadrant, flag: flag)
+    assigns = assign(assigns, ring: ring, quadrant: quadrant, flag: flag, status: status)
 
     ~H"""
     <.link
@@ -98,6 +101,13 @@ defmodule RadarWeb.RadarLive.Index do
           style={"background-color: #{@flag.color}"}
         >
           {@flag.title}
+        </span>
+        <span
+          :if={@status.id != :stable}
+          class="shrink-0 rounded-full px-2 py-0.5 text-xs font-medium text-white"
+          style={"background-color: #{@status.color}"}
+        >
+          {@status.title}
         </span>
       </div>
       <div class="mt-2 flex flex-wrap gap-1.5 text-xs">
@@ -295,6 +305,7 @@ defmodule RadarWeb.RadarLive.Index do
           quadrant_by_id={@quadrant_by_id}
           ring_by_id={@ring_by_id}
           flags={@flags}
+          statuses={@statuses}
         />
       </div>
 

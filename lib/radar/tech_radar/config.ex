@@ -7,7 +7,7 @@ defmodule Radar.TechRadar.Config do
   edit the lists below directly to change the radar's shape.
   """
 
-  alias Radar.TechRadar.{Flag, Quadrant, Ring}
+  alias Radar.TechRadar.{Flag, Quadrant, Ring, Status}
 
   @quadrants [
     %Quadrant{
@@ -96,8 +96,30 @@ defmodule Radar.TechRadar.Config do
     }
   ]
 
+  @statuses [
+    %Status{
+      id: :draft,
+      title: "Draft",
+      color: "#8a8a8a",
+      description: "Still being written or reviewed."
+    },
+    %Status{
+      id: :stable,
+      title: "Stable",
+      color: "transparent",
+      description: "Reviewed and current."
+    },
+    %Status{
+      id: :deprecated,
+      title: "Deprecated",
+      color: "#8a3a3a",
+      description: "This write-up is outdated and pending revision."
+    }
+  ]
+
   @quadrant_ids Enum.map(@quadrants, & &1.id)
   @ring_ids Enum.map(@rings, & &1.id)
+  @status_ids Enum.map(@statuses, & &1.id)
 
   @doc "Returns the configured quadrants, in display order."
   @spec quadrants() :: [Quadrant.t()]
@@ -111,6 +133,10 @@ defmodule Radar.TechRadar.Config do
   @spec flags() :: [Flag.t()]
   def flags, do: @flags
 
+  @doc "Returns the configured statuses."
+  @spec statuses() :: [Status.t()]
+  def statuses, do: @statuses
+
   @doc "Returns the allowed quadrant ids, as configured."
   @spec quadrant_ids() :: [atom()]
   def quadrant_ids, do: @quadrant_ids
@@ -118,6 +144,10 @@ defmodule Radar.TechRadar.Config do
   @doc "Returns the allowed ring ids, as configured."
   @spec ring_ids() :: [atom()]
   def ring_ids, do: @ring_ids
+
+  @doc "Returns the allowed status ids, as configured."
+  @spec status_ids() :: [atom()]
+  def status_ids, do: @status_ids
 
   @doc "Fetches a quadrant by id, or returns `nil`."
   @spec quadrant(atom()) :: Quadrant.t() | nil
@@ -130,4 +160,8 @@ defmodule Radar.TechRadar.Config do
   @doc "Fetches a flag by id, or returns `nil`."
   @spec flag(atom()) :: Flag.t() | nil
   def flag(id), do: Enum.find(@flags, &(&1.id == id))
+
+  @doc "Fetches a status by id, or returns `nil`."
+  @spec status(atom()) :: Status.t() | nil
+  def status(id), do: Enum.find(@statuses, &(&1.id == id))
 end

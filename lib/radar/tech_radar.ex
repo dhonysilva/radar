@@ -40,6 +40,18 @@ defmodule Radar.TechRadar do
   @doc "Returns the configured flags."
   defdelegate list_flags(), to: Config, as: :flags
 
+  @doc "Returns the configured statuses."
+  defdelegate list_statuses(), to: Config, as: :statuses
+
+  @doc """
+  Whether `item` is stale — its `stale_after` date has arrived or passed,
+  relative to `today` (defaults to the real current date).
+  """
+  @spec stale?(Item.t(), Date.t()) :: boolean()
+  def stale?(item, today \\ Date.utc_today())
+  def stale?(%{stale_after: nil}, _today), do: false
+  def stale?(%{stale_after: stale_after}, today), do: Date.compare(today, stale_after) != :lt
+
   @doc "Returns every tag used by at least one item, sorted alphabetically."
   @spec list_tags() :: [String.t()]
   def list_tags do

@@ -35,10 +35,38 @@ defmodule Radar.TechRadarTest do
     assert TechRadar.get_item("does-not-exist") == :error
   end
 
-  test "list_quadrants/0, list_rings/0, and list_flags/0 return the configured values" do
+  test "list_quadrants/0, list_rings/0, list_flags/0, and list_statuses/0 return the configured values" do
     assert length(TechRadar.list_quadrants()) == 4
     assert length(TechRadar.list_rings()) == 4
     assert length(TechRadar.list_flags()) == 3
+    assert length(TechRadar.list_statuses()) == 3
+  end
+
+  test "an item's type, status, stale_after, and sources are parsed from front matter" do
+    assert {:ok, beta} = TechRadar.get_item("beta")
+
+    assert beta.type == "Playbook"
+    assert beta.status == :deprecated
+    assert beta.stale_after == ~D[2020-01-01]
+    assert beta.sources == ["https://example.com/postmortem"]
+  end
+
+  test "stale?/2 is false when stale_after is nil" do
+    refute TechRadar.stale?(%{stale_after: nil}, ~D[2026-01-01])
+  end
+
+  test "stale?/2 is false when stale_after is in the future" do
+    refute TechRadar.stale?(%{stale_after: ~D[2027-01-01]}, ~D[2026-01-01])
+  end
+
+  test "stale?/2 is true when stale_after is today or in the past" do
+    assert TechRadar.stale?(%{stale_after: ~D[2026-01-01]}, ~D[2026-01-01])
+    assert TechRadar.stale?(%{stale_after: ~D[2025-01-01]}, ~D[2026-01-01])
+  end
+
+  test "stale?/1 defaults to comparing against the real current date" do
+    assert TechRadar.stale?(%{stale_after: ~D[2020-01-01]})
+    refute TechRadar.stale?(%{stale_after: ~D[3000-01-01]})
   end
 
   test "list_tags/0 returns every tag used by at least one item, sorted" do

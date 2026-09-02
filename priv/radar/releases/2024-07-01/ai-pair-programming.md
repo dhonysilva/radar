@@ -4,6 +4,7 @@ ring: assess
 quadrant: techniques
 tags: [ai, productivity]
 related: [prompt-engineering, github-copilot, claude-code]
+sources: [https://github.blog/2022-09-07-research-quantifying-github-copilots-impact-on-developer-productivity-and-happiness/]
 ---
 
 Using an AI assistant as a pairing partner for day-to-day coding — from
