@@ -5,7 +5,7 @@ defmodule Radar.TechRadar do
   configuration, and the about page.
   """
 
-  alias Radar.TechRadar.{About, Config, Item, ItemBuilder, Releases}
+  alias Radar.TechRadar.{About, Config, GraphLayout, Item, ItemBuilder, Releases}
 
   @items ItemBuilder.from_releases(Releases.all())
 
@@ -17,6 +17,9 @@ defmodule Radar.TechRadar do
     raise "item #{inspect(item.id)} has a related id #{inspect(related_id)} " <>
             "that does not match any known item id"
   end
+
+  @graph_geometry %{width: 900, height: 700}
+  @graph GraphLayout.layout(@items, @graph_geometry)
 
   @doc "Returns every radar item, sorted by title."
   @spec list_items() :: [Item.t()]
@@ -30,6 +33,18 @@ defmodule Radar.TechRadar do
       item -> {:ok, item}
     end
   end
+
+  @doc """
+  Returns the precomputed items graph: `%{positions: %{item_id => %{x:,
+  y:}}, edges: [{id, id}]}`, derived from every item's `related` field.
+  See `Radar.TechRadar.GraphLayout`.
+  """
+  @spec graph() :: %{positions: map(), edges: [{String.t(), String.t()}]}
+  def graph, do: @graph
+
+  @doc "The canvas geometry the graph layout was computed for."
+  @spec graph_geometry() :: %{width: number(), height: number()}
+  def graph_geometry, do: @graph_geometry
 
   @doc "Returns the configured quadrants."
   defdelegate list_quadrants(), to: Config, as: :quadrants
