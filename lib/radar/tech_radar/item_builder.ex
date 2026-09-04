@@ -50,7 +50,8 @@ defmodule Radar.TechRadar.ItemBuilder do
       body_html: current.body_html,
       release_date: current.date,
       history: history,
-      flag: flag
+      flag: flag,
+      path: current.path
     }
   end
 end

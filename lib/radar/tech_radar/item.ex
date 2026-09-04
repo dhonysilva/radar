@@ -21,7 +21,8 @@ defmodule Radar.TechRadar.Item do
     :body_html,
     :release_date,
     :history,
-    :flag
+    :flag,
+    :path
   ]
   defstruct [
     :id,
@@ -38,7 +39,8 @@ defmodule Radar.TechRadar.Item do
     :body_html,
     :release_date,
     :history,
-    :flag
+    :flag,
+    :path
   ]
 
   @type history_entry :: %{release_date: Date.t(), ring: atom()}
@@ -58,6 +60,7 @@ defmodule Radar.TechRadar.Item do
           body_html: String.t(),
           release_date: Date.t(),
           history: [history_entry()],
-          flag: :new | :changed | nil
+          flag: :new | :changed | nil,
+          path: String.t()
         }
 end

@@ -27,7 +27,8 @@ defmodule Radar.TechRadar.ChartLayoutTest do
       body_html: "",
       release_date: ~D[2024-01-01],
       history: [],
-      flag: nil
+      flag: nil,
+      path: "priv/radar/releases/2024-01-01/#{id}.md"
     )
   end
 
