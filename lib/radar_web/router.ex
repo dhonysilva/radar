@@ -22,6 +22,7 @@ defmodule RadarWeb.Router do
     live_session :radar do
       live "/radar", RadarLive.Index, :index
       live "/radar/about", RadarLive.About, :about
+      live "/radar/graph", RadarLive.Graph, :graph
       live "/radar/:id", RadarLive.Show, :show
       live "/radar/:id/edit", RadarLive.Edit, :edit
     end

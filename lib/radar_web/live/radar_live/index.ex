@@ -227,6 +227,7 @@ defmodule RadarWeb.RadarLive.Index do
         Technology Radar
         <:subtitle>What we're adopting, trialing, assessing, and holding off on.</:subtitle>
         <:actions>
+          <.button navigate={~p"/radar/graph"}>Graph</.button>
           <.button navigate={~p"/radar/about"}>About</.button>
         </:actions>
       </.header>
